@@ -1,4 +1,3 @@
-from itertools import combinations
 import math
 
 n = int(input())
