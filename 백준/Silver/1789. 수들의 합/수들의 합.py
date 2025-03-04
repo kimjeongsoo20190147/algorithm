@@ -1,11 +1,11 @@
-S = int(input())
-N = 0
-cnt = 0
+s = int(input())
+total = 0
+count = 0
+
 while True:
-    if S > N:
-        N += 1
-        S = S - N
-        cnt += 1
-    else:
-        print(cnt)
+    count += 1
+    total += count
+    if total > s:
         break
+
+print(count-1)
