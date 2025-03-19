@@ -1,34 +1,44 @@
-n = int(input())
+T = int(input())
 
-for _ in range(n):
-    t = int(input().strip())  # 열(스티커의 칸) 개수
+for _ in range(T):
+    n = int(input())
 
-    # 각 행(위, 아래)의 스티커 점수들
     upper = list(map(int, input().split()))
     lower = list(map(int, input().split()))
 
-    # dp[i][0] = i번째 열에서 스티커를 선택하지 않았을 때의 최댓값
-    # dp[i][1] = i번째 열에서 위 스티커를 선택했을 때의 최댓값
-    # dp[i][2] = i번째 열에서 아래 스티커를 선택했을 때의 최댓값
-    dp = [[0]*3 for _ in range(t)]
+    table = []
 
-    # 초기값 설정 (0번째 열)
-    dp[0][0] = 0             # 0번째 열에서 아무것도 선택 안 함
-    dp[0][1] = upper[0]     # 0번째 열에서 위쪽 스티커 선택
-    dp[0][2] = lower[0]     # 0번째 열에서 아래쪽 스티커 선택
+    table.append(upper)
+    table.append(lower)
 
-    if t > 1:
-        # 1번째 열 초기값 (점화식 적용)
-        dp[1][0] = max(dp[0][0], dp[0][1], dp[0][2])  # 아무 스티커 안 고름
-        dp[1][1] = dp[0][2] + upper[1]               # 이전 열에서 아랫줄을 골랐을 때만 윗줄 가능
-        dp[1][2] = dp[0][1] + lower[1]               # 이전 열에서 윗줄을 골랐을 때만 아랫줄 가능
 
-        # 2번째 열부터 일반화
-        for i in range(2, t):
-            dp[i][0] = max(dp[i-1][0], dp[i-1][1], dp[i-1][2])
-            dp[i][1] = max(dp[i-1][0], dp[i-1][2]) + upper[i]
-            dp[i][2] = max(dp[i-1][0], dp[i-1][1]) + lower[i]
+    dp = [[0] * n for _ in range(2)]
 
-    # 마지막 열(t-1)에서의 결과 중 최댓값
-    answer = max(dp[t-1][0], dp[t-1][1], dp[t-1][2])
-    print(answer)
+    if n == 1:
+        if table[0] > table[1]:
+            print(table[0][0])
+        else:
+            print(table[1][0])
+    elif n == 2:
+        a = table[0][0] + table[1][1]
+        b = table[1][0] + table[0][1]
+        if a > b:
+            print(a)
+        else:
+            print(b)
+    else:
+        dp[0][0] = table[0][0]
+        dp[0][1] = table[1][0] + table[0][1]
+        dp[1][0] = table[1][0]
+        dp[1][1] = table[0][0] + table[1][1]
+
+        ans = []
+
+        for j in range(2,n):
+            dp[0][j] = max(dp[1][j-2], dp[1][j-1], dp[0][j-2]) + table[0][j]
+            ans.append(dp[0][j])
+
+            dp[1][j] = max(dp[0][j-2], dp[0][j-1], dp[1][j-2]) + table[1][j]
+            ans.append(dp[1][j])
+
+        print(max(ans))
