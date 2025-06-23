@@ -1,17 +1,8 @@
-n = int(input())
+def fib(N):
+    x, y = 0, 1
+    for i in range(0,N):
+        x, y = y, x+y
+    return x
 
-arr = [-1]*(n+2)
-arr[0]=0
-arr[1]=1
-
-def fibo(x):
-    global arr
-    
-    if arr[x] != -1:
-        return arr[x]
-    
-    arr[x] = fibo(x-1) + fibo(x-2)
-    return arr[x]
-
-
-print(fibo(n))
+N = int(input())
+print(fib(N))
