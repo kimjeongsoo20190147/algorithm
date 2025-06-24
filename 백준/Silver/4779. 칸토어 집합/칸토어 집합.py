@@ -1,19 +1,17 @@
-def cut(a,n):
-    if n == 1:
+def cantor(n):
+    if n == 0:
+        print("-", end="")
         return
-    for i in range(a+n//3, a+(n//3)*2):
-        result[i] = ' '
-    cut(a, n//3)
-    cut(a+n//3*2, n//3)
-
-
+    else:
+        cantor(n-1)
+        print(" " * (3 ** (n-1)), end="")
+        cantor(n-1)
 
 
 while True:
-    try :
-        N = int(input())
-        result = ['-']*(3**N)
-        cut(0,3**N)
-        print(''.join(result))
-    except :
+    try:
+        n = int(input())
+        cantor(n)
+        print()
+    except:
         break
