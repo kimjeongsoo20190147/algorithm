@@ -1,16 +1,24 @@
-from itertools import combinations
-
-
-
-while True:
-    input_num = list(map(int, input().split()))
-    if input_num[0] == 0:
-        break
-    else:
-        input_num = input_num[1:]
-        ans = list(combinations(input_num, 6))
-        for num in ans:
-            for _ in num:
-                print(_, end=' ')
-            print()
+def combinations(index, level):
+    global choose, arr, k
+    
+    if level == 6:
+        for u in choose:
+            print(u, end=' ')
         print()
+        return
+    
+    for i in range(index, k):
+        choose.append(arr[i])
+        combinations(i+1, level+1)
+        choose.pop()
+        
+while True:
+    choose = []
+    I = list(map(int, input().split()))
+    
+    k = I[0]
+    arr = I[1:]
+    if k == 0:
+        break
+    combinations(0,0)
+    print()
