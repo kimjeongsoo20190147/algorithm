@@ -1,11 +1,10 @@
 n = int(input())
-li=[]
-for _ in range(n):
-    a = list(map(int, input().split()))
-    li.append(a)
 
-li.sort()
+lst = [list(map(int, input().split())) for _ in range(n)]
 
-for i in range(n):
-    print(li[i][0], end=" ")
-    print(li[i][1])
+lst = sorted(lst)
+
+for _ in lst:
+    for elem in _:
+        print(elem, end=" ")
+    print()
