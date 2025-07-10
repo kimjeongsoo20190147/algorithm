@@ -1,20 +1,24 @@
-N,M=[*map(int,input().split())]
-books=[*map(int,input().split())]
- 
-plus = []; minus = []; last = 0
-for b in books:
-    last = max(abs(b),last)
-    if b>0:
-        plus.append(b)
-    else:
-        minus.append(abs(b))
+N, M = map(int, input().split())
+arr = list(map(int, input().split()))
 
-plus.sort(reverse = 1)
-minus.sort(reverse = 1)
+neg = []
+pos = []
+
+for x in arr:
+    if x > 0:
+        pos.append(x)
+    else:
+        neg.append(-x)
+        
+pos = sorted(pos)[::-1]
+neg = sorted(neg)[::-1]
+
+dists = []
+
+for p in pos[::M]:
+    dists.append(p)
  
-result = 0
-for i in range(0, len(plus), M):
-    result += plus[i]*2
-for i in range(0, len(minus), M):
-    result += minus[i]*2
-print(result-last)
+for n in neg[::M]:
+    dists.append(n)
+    
+print(2 * sum(dists) - max(dists))
