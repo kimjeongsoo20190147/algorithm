@@ -1,24 +1,33 @@
-n, m = map(int, input().split())
-board = [input().strip() for _ in range(n)]
-ans = float('inf')
+def get_min(sy, sx):
+    global board, chess1, chess2
+    case1 = case2 = 0
+    
+    for i in range(8):
+        for j in range(8):
+            case1 += (board[sy+i][sx+j] != chess1[i][j])
+            case2 += (board[sy+i][sx+j] != chess2[i][j])
+            
+    return min(case1, case2)
 
-for i in range(n - 7):
-    for j in range(m - 7):
-        cnt1 = cnt2 = 0
-        # 8×8 부분 보드를 순회합니다.
-        for x in range(8):
-            for y in range(8):
-                # (x+y)가 짝수인 칸은 top-left 색과 같아야 함
-                if (x + y) % 2 == 0:
-                    if board[i + x][j + y] != 'W':  # top-left가 'W'인 경우
-                        cnt1 += 1
-                    if board[i + x][j + y] != 'B':  # top-left가 'B'인 경우
-                        cnt2 += 1
-                else:
-                    if board[i + x][j + y] != 'B':  # top-left가 'W'인 경우
-                        cnt1 += 1
-                    if board[i + x][j + y] != 'W':  # top-left가 'B'인 경우
-                        cnt2 += 1
-        ans = min(ans, cnt1, cnt2)
 
-print(ans)
+chess1 = [['' for _ in range(8)] for _ in range(8)]
+chess2 = [['' for _ in range(8)] for _ in range(8)]
+
+for i in range(8):
+    for j in range(8):
+        chess1[i][j] = ('W' if (i+j) % 2 == 0 else 'B')
+        chess2[i][j] = ('B' if (i+j) % 2 == 0 else 'W')
+        
+
+N, M = map(int, input().split())
+board = [input() for _ in range(N)]
+
+best = int(1e12)
+for y in range(N):
+    for x in range(M):
+        if (y+7 >= N) or (x+7 >= M):
+            continue
+        best = min(best, get_min(y,x))
+        
+        
+print(best)
