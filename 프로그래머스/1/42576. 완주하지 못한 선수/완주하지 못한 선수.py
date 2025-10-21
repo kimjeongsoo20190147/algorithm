@@ -1,10 +1,11 @@
-import collections
-
 def solution(participant, completion):
     answer = ''
-    participant_counts = collections.Counter(participant)
-    completion_counts = collections.Counter(completion)
-
-    result = participant_counts - completion_counts
-    answer = list(result.keys())[0]
-    return answer
+    
+    participant.sort()
+    completion.sort()
+    
+    for i in range(len(completion)):
+        if participant[i] != completion[i]:
+            return participant[i]
+    
+    return participant[-1]
