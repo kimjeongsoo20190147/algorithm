@@ -1,11 +1,20 @@
 def solution(participant, completion):
     answer = ''
     
-    participant.sort()
-    completion.sort()
+    hash = {}
     
-    for i in range(len(completion)):
-        if participant[i] != completion[i]:
-            return participant[i]
+    for people in participant:
+        if people in hash:
+            hash[people] += 1
+        else:
+            hash[people] = 1
+        
+    for people in completion:
+        hash[people] += 1
+        
+    for people in hash:
+        if hash[people] % 2 == 1:
+            answer = answer + people
+
     
-    return participant[-1]
+    return answer
