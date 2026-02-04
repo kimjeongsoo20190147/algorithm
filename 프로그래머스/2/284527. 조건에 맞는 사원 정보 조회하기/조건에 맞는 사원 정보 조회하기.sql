@@ -1,0 +1,16 @@
+SELECT SCORE, EMP_NO, EMP_NAME, POSITION, EMAIL
+FROM (
+    SELECT
+        SUM(g.SCORE) AS SCORE,
+        e.EMP_NO,
+        e.EMP_NAME,
+        e.POSITION,
+        e.EMAIL,
+        DENSE_RANK() OVER (ORDER BY SUM(g.SCORE) DESC) AS rnk
+    FROM HR_EMPLOYEES AS e
+    JOIN
+    HR_GRADE AS g ON g.EMP_NO = e.EMP_NO
+    WHERE g.YEAR = 2022
+    GROUP BY e.EMP_NO, e.EMP_NAME, e.POSITION, e.EMAIL
+) AS t
+WHERE rnk = 1;
