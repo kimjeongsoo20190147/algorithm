@@ -1,13 +1,12 @@
 def solution(elements):
-    answer = []
-    circle = elements * 2
+    l = len(elements)
+    sum_set = set()
     
-    for i, num in enumerate(elements):
-        answer.append(num)
+    for i in range(l):
+        v = elements[i]
+        sum_set.add(v)
         
-        for num2 in circle[i+1:i+len(elements)]:
-            num += num2
-            answer.append(num)
-    
-    
-    return len(set(answer))
+        for j in range(i+1, i+l):
+            v += elements[j%l]
+            sum_set.add(v)
+    return len(sum_set)
